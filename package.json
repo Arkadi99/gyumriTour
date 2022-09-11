@@ -16,8 +16,10 @@
     "esm": "^3.2.25",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
+    "lodash": "^4.17.21",
     "morgan": "~1.9.1",
     "mysql2": "^2.3.3",
+    "nodemailer": "^6.7.8",
     "nodemon": "^2.0.19",
     "sequelize": "^6.21.6"
   }

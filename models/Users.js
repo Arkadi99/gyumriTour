@@ -42,7 +42,15 @@ Users.init({
     avatar: {
         type: DataTypes.STRING,
         allowNull: true,
-    }
+    },
+    activationCode: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        get() {
+            return undefined
+        }
+    },
+
 
 }, {
     sequelize,

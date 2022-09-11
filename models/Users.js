@@ -1,7 +1,14 @@
 import {DataTypes, Model} from "sequelize";
 import sequelize from "../services/sequelize";
+import md5 from "md5";
 
-class Users extends Model {}
+const {PASSWORD_SECRET} = process.env
+
+class Users extends Model {
+    static passHash = (password) => {
+        return md5(md5(password) + PASSWORD_SECRET)
+    }
+}
 
 Users.init({
     id: {
@@ -27,6 +34,11 @@ Users.init({
         allowNull: false,
         get(){
             return undefined
+        },
+        set(val) {
+            if (val) {
+                this.setDataValue('password', Users.passHash(val))
+            }
         }
     },
     status: {
@@ -52,10 +64,7 @@ Users.init({
         fields: ['email'],
         unique: true
     }]
-
 })
-
-
 
 
 export default Users

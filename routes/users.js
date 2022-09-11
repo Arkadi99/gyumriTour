@@ -1,11 +1,11 @@
 import express from "express";
 import UserController from "../controllers/UserController";
+import validationMiddleware from "../middlewares/validationMiddleware";
+import {UserCreateSchema, UserLogInSchema} from "../schemas/UserCreateSchema";
 
 const router = express.Router();
 
-router.get('/', UserController.test)
-router.post('/auth/login', )
-router.post('/auth/signup', )
+router.post('/auth/login',validationMiddleware(UserLogInSchema), UserController.login)
 
 
 

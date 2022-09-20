@@ -30,9 +30,9 @@ Users.init({
         allowNull: false,
     },
     password: {
-        type:DataTypes.CHAR(100),
+        type: DataTypes.CHAR(100),
         allowNull: false,
-        get(){
+        get() {
             return undefined
         },
         set(val) {
@@ -47,7 +47,7 @@ Users.init({
         defaultValue: 'pending',
     },
     role: {
-        type: DataTypes.ENUM('tourist', 'guide', 'entrepreneur', 'admin'),
+        type: DataTypes.ENUM('tourist', 'guide', 'company', 'admin'),
         allowNull: false,
         defaultValue: 'tourist',
     },
@@ -63,7 +63,6 @@ Users.init({
         }
     },
 
-
 }, {
     sequelize,
     tableName: "users",
@@ -75,10 +74,4 @@ Users.init({
 })
 
 
-<<<<<<< HEAD
-
-
 export default Users
-=======
-export default Users
->>>>>>> e57c9efec963635bde7927a954b0f4350ed84e0d

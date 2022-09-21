@@ -11,7 +11,6 @@ class UserController {
         try {
             const {firstName, lastName, email, password} = req.body
             const activationCode = Helpers.randomString(9)
-
             const user = await Users.create({
                 firstName,
                 lastName,

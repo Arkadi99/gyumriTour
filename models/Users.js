@@ -30,9 +30,9 @@ Users.init({
         allowNull: false,
     },
     password: {
-        type:DataTypes.CHAR(100),
+        type: DataTypes.CHAR(100),
         allowNull: false,
-        get(){
+        get() {
             return undefined
         },
         set(val) {
@@ -75,10 +75,5 @@ Users.init({
 })
 
 
-<<<<<<< HEAD
-
-
 export default Users
-=======
-export default Users
->>>>>>> e57c9efec963635bde7927a954b0f4350ed84e0d
+

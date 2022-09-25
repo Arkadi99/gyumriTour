@@ -11,5 +11,4 @@ const validationMiddleware = (schema) => (req, res, next) => {
         next(e);
     }
 }
-
 export default validationMiddleware;

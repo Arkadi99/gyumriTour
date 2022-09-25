@@ -3,8 +3,7 @@ import sequelize from "../services/sequelize";
 import Users from "./Users";
 
 
-class Service extends Model {
-}
+class Service extends Model {}
 
 Service.init({
     id: {

@@ -31,7 +31,6 @@ app.use((req, res, next) => {
 
 // error handler
 app.use((err, req, res, next) => {
-
   // render the error page
   res.status(err.status || 500);
   res.json({
@@ -39,6 +38,7 @@ app.use((err, req, res, next) => {
     message: err.message,
     stack: err.stack,
     errors: err.errors,
+    // path: err.path
   });
 });
 

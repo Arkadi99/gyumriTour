@@ -17,11 +17,19 @@ class UserController {
                 email,
                 password,
                 activationCode
-            })
-            ConfirmEmail.confirm(email, activationCode).catch(console.trace)
+            });
+
+            ConfirmEmail.confirm(email, activationCode).catch(console.trace);
+
+            const token = jwt.sign({
+                id: user.id,
+                role: user.role,
+                email,
+            }, process.env.SECRET_KEY, {expiresIn: '24h'})
+
             res.json({
-                status: 'ok',
-                user
+                user,
+                token
             })
         } catch (e) {
             next(e);
@@ -78,6 +86,28 @@ class UserController {
             })
 
         } catch (e) {
+            next(e)
+        }
+    }
+
+    static getProfile = async(req, res, next) => {
+        try{
+            const {userId} = req
+
+            const user = await Users.findOne({
+                where: {
+                    id : userId
+                }
+            })
+
+            if (!user){
+                next(HttpError(403, 'Not allowed'))
+            }
+
+            res.json({
+               user
+            })
+        } catch(e) {
             next(e)
         }
     }

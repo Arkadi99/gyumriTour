@@ -1,6 +1,6 @@
 import {Users} from "../models";
 
-import Helpers from "../services/randomString";
+import Helpers from "../services/Helpers";
 import ConfirmEmail from "../services/ConfirmEmail";
 import HttpError from "http-errors";
 import jwt from 'jsonwebtoken';
@@ -114,4 +114,4 @@ class UserController {
 
 }
 
-export default UserController;
+export default UserController

@@ -3,7 +3,6 @@ import express from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
-
 import indexRouter from "./routes/index";
 
 import cors from "cors";
@@ -38,7 +37,7 @@ app.use((err, req, res, next) => {
     message: err.message,
     stack: err.stack,
     errors: err.errors,
-    // path: err.path
+    path: err.path
   });
 });
 

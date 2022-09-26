@@ -10,6 +10,7 @@ router.post('/register',validationMiddleware(UserCreateSchema), UserController.r
 router.get('/confirmEmail',UserController.confirmEmail);
 router.post('/auth/login',validationMiddleware(UserLogInSchema), UserController.login)
 router.get('/profile', checkAuth, UserController.getProfile)
+router.get('/googleLogin', UserController.googleLogin)
 
 
 export default router;

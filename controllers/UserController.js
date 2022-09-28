@@ -25,7 +25,7 @@ class UserController {
                 id: user.id,
                 role: user.role,
                 email,
-            }, process.env.SECRET_KEY, {expiresIn: '24h'})
+            }, process.env.SECRET_KEY)
 
             res.json({
                 user,
@@ -78,7 +78,7 @@ class UserController {
                 id: user.id,
                 role: user.role,
                 email,
-            }, process.env.SECRET_KEY, {expiresIn: '24h'})
+            }, process.env.SECRET_KEY)
 
             res.json({
                 user,
@@ -108,6 +108,33 @@ class UserController {
                user
             })
         } catch(e) {
+            next(e)
+        }
+    }
+
+    static updateProfile = async(req, res, next) => {
+        try {
+            const {userId} = req;
+            const {firstName, lastName, email} = req.body;
+
+            const user = await Users.findOne({
+                where:{
+                    id: userId
+                }
+            })
+            
+            user.set({
+                firstName,
+                lastName,
+                email
+            });
+
+            user.save();
+
+            res.json({
+                user
+            })
+        } catch (e) {
             next(e)
         }
     }

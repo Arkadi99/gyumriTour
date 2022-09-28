@@ -9,8 +9,8 @@ const validationMiddleware = (schema) => (req, res, next) => {
             const path = valid.error.details[0].path[1]
             const err = valid.error.details[0].message.replace(/^"(\w*?\.)(\w*)"/, path)
 
-            // throw HttpError(422, {errors: err, path});
-            throw HttpError(422, {errors: valid.error.details});
+            throw HttpError(422, {errors: err, path});
+            // throw HttpError(422, {errors: valid.error.details});
 
         }
 

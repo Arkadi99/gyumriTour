@@ -112,6 +112,7 @@ class UserController {
         }
     }
 
+
     static updateProfile = async(req, res, next) => {
         try {
             const {userId} = req;
@@ -139,6 +140,40 @@ class UserController {
         }
     }
 
+
+    static googleLogin = async (req, res, next) => {
+        try {
+            const {googleToken} = req.query
+            const {data} = await Helpers.googleLogin(googleToken);
+            const {given_name,family_name,email,email_verified,sub, picture} = data
+            if (!googleToken) {
+                throw HttpError(404, "not google users");
+            }
+            if (!email_verified) {
+                throw HttpError(404, "not google verification");
+            }
+            const user = await Users.create({
+                firstName:given_name,
+                lastName:family_name,
+                email,
+                password:sub,
+                status:"active",
+                avatar:picture
+            });
+            const token = jwt.sign({
+                id: user.id,
+                role: user.role,
+                email,
+            }, process.env.SECRET_KEY, {expiresIn: '24h'})
+            res.json({
+                status: 'ok',
+                user,
+                token
+            })
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 export default UserController

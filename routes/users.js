@@ -8,8 +8,9 @@ const router = express.Router();
 
 router.post('/register',validationMiddleware(UserCreateSchema), UserController.register);
 router.get('/confirmEmail',UserController.confirmEmail);
-router.post('/auth/login',validationMiddleware(UserLogInSchema), UserController.login)
-router.get('/profile', checkAuth, UserController.getProfile)
-router.put('/profile', checkAuth,validationMiddleware(UserUpdateSchema), UserController.updateProfile)
+router.post('/auth/login',validationMiddleware(UserLogInSchema), UserController.login);
+router.get('/profile', checkAuth, UserController.getProfile);
+router.put('/profile', checkAuth,validationMiddleware(UserUpdateSchema), UserController.updateProfile);
+router.get('/googleLogin', UserController.googleLogin);
 
 export default router;

@@ -33,7 +33,7 @@ Service.init({
     },
     images: {
         type: DataTypes.JSON,
-        allowNull: false
+        allowNull: true
     }
 }, {
     sequelize,

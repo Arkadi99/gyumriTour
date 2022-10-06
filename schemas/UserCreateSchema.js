@@ -10,6 +10,13 @@ export const UserCreateSchema = Joi.object({
     })
 })
 
+export const UserUpdateSchema = Joi.object({
+    body: Joi.object({
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        email: Joi.string().email().required(),
+    })
+})
 export const UserLogInSchema = Joi.object({
     body: Joi.object({
         email: Joi.string().email().required(),

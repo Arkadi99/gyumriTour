@@ -1,5 +1,4 @@
 import Helpers from "../services/Helpers";
-
 class UtilsController {
     static weather = async (req, res, next) => {
         try {

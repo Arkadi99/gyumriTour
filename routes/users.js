@@ -11,6 +11,8 @@ router.get('/confirmEmail',UserController.confirmEmail);
 router.post('/auth/login',validationMiddleware(UserLogInSchema), UserController.login)
 router.get('/profile', checkAuth, UserController.getProfile)
 router.get('/googleLogin', UserController.googleLogin)
+router.get('/passwordEmail', UserController.passwordEmail)
+router.get('/passwordChangeCode', UserController.passwordChangeCode)
 
 
 export default router;

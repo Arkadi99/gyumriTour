@@ -2,9 +2,11 @@ import express from "express";
 import ServiceController from "../controllers/ServiceController";
 import checkAuth from "../middlewares/checkAuth";
 import multer from "multer";
-import {v4 as uuIdV4} from 'uuid';
+import {v4 as uuIdV4, validate} from 'uuid';
 import os from 'os';
 import  HttpError  from "http-errors";
+import validationMiddleware from "../middlewares/validationMiddleware";
+import {ServiceCreateSchema} from "../schemas/ServiceCreateSchema";
 
 const router = express.Router();
 
@@ -14,7 +16,7 @@ const upload = multer({
             cb(null, os.tmpdir())
         },
         filename: (req, file, cb) => {
-            if(!['image/jpeg', 'image/pnj', 'image/gif'].includes(file.mimetype)){
+            if(!['image/jpeg', 'image/png', 'image/gif'].includes(file.mimetype)){
                 cb(HttpError(422, 'Invalid file type'));
                 return;
             }
@@ -23,6 +25,10 @@ const upload = multer({
     })
 })
 
-router.post('/create', checkAuth, upload.array('images'), ServiceController.createService);
+router.post('/create', checkAuth, upload.array('images'),validationMiddleware(ServiceCreateSchema), ServiceController.createService);
+router.get('/:id', ServiceController.getOneService);
+router.get('/', ServiceController.getAllServices);
+router.delete('/:id', checkAuth, ServiceController.deleteService);
+router.put('/:id', checkAuth, upload.array('images'),  validationMiddleware(ServiceCreateSchema), ServiceController.updateService);
 
 export default router;

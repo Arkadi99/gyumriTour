@@ -1,9 +1,11 @@
-import {Service, Users} from "../models";
+import {Service, Users, Comment, Raiting} from "../models";
 
 (async function main() {
 
     for (const Model of [Users,
-        Service
+        Service,
+        Comment,
+        Raiting
     ]){
         await Model.sync({ alter: true, logging: true });
     }

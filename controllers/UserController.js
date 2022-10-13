@@ -115,8 +115,16 @@ class UserController {
 
     static updateProfile = async(req, res, next) => {
         try {
-            const {userId} = req;
-            const {firstName, lastName, email} = req.body;
+            const {userId, file} = req;
+            const {firstName, lastName} = req.body;
+            
+
+            if(file) {
+                await sharp(file.path)
+                       .rotate()
+                       .resize(512)
+                       .toFile(path.join(__dirname, '../public', file.filename))
+            }
 
             const user = await Users.findOne({
                 where:{
@@ -127,10 +135,10 @@ class UserController {
             user.set({
                 firstName,
                 lastName,
-                email
+                avatar: file.filename
             });
 
-            user.save();
+            await user.save();
 
             res.json({
                 user

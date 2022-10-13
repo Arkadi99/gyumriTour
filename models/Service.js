@@ -43,10 +43,12 @@ Service.init({
 })
 
 Service.belongsTo(Users, {
-    foreignKey: 'userId'
+    foreignKey: 'userId',
+    onDelete: 'cascade'
 });
 Users.hasMany(Service, {
-    foreignKey: 'userId'
+    foreignKey: 'userId',
+    onDelete: 'cascade'
 });
 
 export default Service;

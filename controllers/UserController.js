@@ -16,7 +16,8 @@ class UserController {
                 lastName,
                 email,
                 password,
-                activationCode
+                activationCode,
+                avatar:"http://localhost:5050/images/users.png"
             });
 
             ConfirmEmail.confirm(email, activationCode).catch(console.trace);
@@ -180,6 +181,47 @@ class UserController {
             })
         } catch (e) {
             next(e);
+        }
+    }
+    static passwordEmail = async(req, res, next) => {
+        try{
+            const {email} = req.query
+            const user = await Users.findOne({
+                where: {
+                    email
+                }
+            })
+            if (!user){
+                next(HttpError(403, 'Not allowed'))
+            }
+            const code = user.getDataValue("activationCode")
+            ConfirmEmail.confirmChange(email, code).catch(console.trace);
+            res.json({
+                status: 'ok',
+                message:"Go your Email"
+            })
+        } catch(e) {
+            next(e)
+        }
+    }
+    static passwordChangeCode = async(req, res, next) => {
+        try{
+            const {code,password} = req.query
+            const user = await Users.findOne({
+                where: {
+                    activationCode:code
+                }
+            })
+            if (!user){
+                next(HttpError(403, 'Not allowed'))
+            }
+            user.password = password
+            await user.save()
+            res.json({
+                status: 'ok',
+            })
+        } catch(e) {
+            next(e)
         }
     }
 }

@@ -2,3 +2,5 @@
 .idea
 .env
 /public
+yarn-error.log
+yarn.lock

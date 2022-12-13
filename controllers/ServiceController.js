@@ -1,7 +1,8 @@
-import { Service } from "../models";
+import {Service, Comment, Raiting} from "../models";
 import sharp  from 'sharp';
 import path from "path";
 import HttpError from "http-errors";
+import _ from 'lodash';
 
 class ServiceController {
     static createService = async(req, res, next) => {
@@ -158,6 +159,77 @@ class ServiceController {
             })
         } catch (e) {
             next(e)
+        }
+    }
+
+    static addComment = async (req, res, next) => {
+        try {
+            const {userId} = req;
+            const {text} = req.body;
+            const serviceId = req.params.id;
+
+            const comment = await Comment.create({
+                userId,
+                serviceId,
+                text
+            })
+
+            res.json({
+                comment
+            })
+            
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static setRating = async (req ,res, next) => {
+        try{
+            const { userId, serviceId, rate} = req.body;
+
+            const rating = await Raiting.findOne({
+                where: {
+                    userId, serviceId,
+                }
+            })
+
+            if (rating) {
+                throw HttpError(422, '')
+            }
+
+            await Raiting.create({
+                userId, serviceId, rate
+            })
+
+            res.json({
+                status: 'ok',
+                message: 'Rated'
+            })
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    static getRating = async (req, res, next) => {
+        try {
+            const {serviceId} = req.query;
+            const {rate} = req.body
+
+            const rating = await Raiting.findAll({
+                where: {
+                    serviceId
+                }
+            })
+
+            const num = _.sumBy(rating, rate) / rating.length - 1;
+
+            res.json({
+                status: 'ok',
+                num
+            })
+
+        } catch (e) {
+            next(e);
         }
     }
 }

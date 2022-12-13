@@ -7,6 +7,7 @@ import os from 'os';
 import  HttpError  from "http-errors";
 import validationMiddleware from "../middlewares/validationMiddleware";
 import {ServiceCreateSchema} from "../schemas/ServiceCreateSchema";
+import checkAdmion from "../middlewares/checkAdmion";
 
 const router = express.Router();
 
@@ -28,7 +29,8 @@ const upload = multer({
 router.post('/create', checkAuth, upload.array('images'),validationMiddleware(ServiceCreateSchema), ServiceController.createService);
 router.get('/:id', ServiceController.getOneService);
 router.get('/', ServiceController.getAllServices);
-router.delete('/:id', checkAuth, ServiceController.deleteService);
-router.put('/:id', checkAuth, upload.array('images'),  validationMiddleware(ServiceCreateSchema), ServiceController.updateService);
+router.delete('/:id', checkAuth, checkAdmion, ServiceController.deleteService);
+router.put('/:id', checkAuth, upload.array('images'), validationMiddleware(ServiceCreateSchema), ServiceController.updateService);
+router.post('/:id', checkAuth, ServiceController.addComment);
 
 export default router;

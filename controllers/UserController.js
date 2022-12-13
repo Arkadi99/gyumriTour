@@ -6,7 +6,15 @@ import HttpError from "http-errors";
 import jwt from 'jsonwebtoken';
 
 class UserController {
-
+    
+    static removeDataPending = async (req, res, next) => {
+        try {
+            const users = await Users.destroy({where: {status: "pending"}})
+            console.log(users)
+        } catch (e) {
+            next(e)
+        }
+    }
     static register = async (req, res, next) => {
         try {
             const {firstName, lastName, email, password} = req.body
@@ -116,7 +124,7 @@ class UserController {
 
     static updateProfile = async(req, res, next) => {
         try {
-            const {userId, file} = req;
+            const { userId, file } = req;
             const {firstName, lastName} = req.body;
             
 
@@ -132,7 +140,10 @@ class UserController {
                     id: userId
                 }
             })
-            
+
+            if (!user) {
+                throw HttpError(422, 'Error');
+            }
             user.set({
                 firstName,
                 lastName,

@@ -4,8 +4,10 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import indexRouter from "./routes/index";
+import {CronJob} from "cron";
 
 import cors from "cors";
+import UserController from "./controllers/UserController";
 
 const app = express();
 
@@ -27,7 +29,15 @@ app.use('/', indexRouter);
 app.use((req, res, next) => {
   next(createError(404));
 });
-
+// cron kashxati amen amsi mekin
+const cronJob = new CronJob(
+    '* * * 1 * *',
+    UserController.removeDataPending,
+    null,
+    true,
+    'Asia/Yerevan'
+    // At every minute on day-of-month 1.
+);
 // error handler
 app.use((err, req, res, next) => {
   // render the error page
